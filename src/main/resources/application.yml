@@ -1,0 +1,29 @@
+server:
+  port: ${SERVER_PORT:8201}
+
+jwt:
+  secret: ${JWT_SECRET:Yz8nWpV2rQ5dBmX1sK9gLtA3vFzJeT7oN6uHbE4cXqMdRySaZwCoPlGtExHkUjNv}
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    #${DB_HOST}:${DB_PORT}/${DB_NAME}
+    username: postgres
+    #${DB_USER}
+    password: root
+    #${DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+
+  jdbc:
+    template:
+      fetch-size: 100
+      max-rows: 1000
+
+  main:
+    allow-bean-definition-overriding: true
+
+logging:
+  level:
+    root: WARN
+    com.zennitech: INFO
+    com.amazonaws.serverless: INFO
