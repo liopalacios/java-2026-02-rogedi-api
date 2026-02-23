@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,7 +20,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class StockRepository {
     private final JdbcTemplate jdbcTemplate;
-
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     /**
      * Listar stock general con filtros y paginación
      */
@@ -602,6 +603,9 @@ public class StockRepository {
             model.setTecnicoNombre(rs.getString("tecnico_nombre"));
             model.setTecnicoApellido(rs.getString("tecnico_apellido"));
             model.setTecnicoCodigo(rs.getString("tecnico_codigo"));
+            model.setTecnicoNumeroDocumento(rs.getString("tecnico_documento"));
+
+            model.setFecMovimiento(LocalDate.parse(rs.getString("fec_movimiento"), formatter ));
 
             model.setObservacion(rs.getString("glosa"));
             // Datos calculados

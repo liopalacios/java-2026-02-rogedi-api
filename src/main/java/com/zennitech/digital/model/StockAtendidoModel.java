@@ -40,6 +40,7 @@ public class StockAtendidoModel {
     private String tecnicoNombre;
     private String tecnicoApellido;
     private String tecnicoCodigo;
+    private String tecnicoNumeroDocumento;
 
     // Datos calculados
     private Integer cantidad;

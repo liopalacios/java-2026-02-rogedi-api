@@ -50,7 +50,8 @@ public class TecnicoJdbcRepository {
     }
 
     public List<TecnicoModel> listar() {
-        String sql = "SELECT * FROM rogedibd.tecnicos WHERE activo = true order by apellidos";
+        String sql = "SELECT * FROM rogedibd.tecnicos WHERE activo = true order by " +
+                "COALESCE(fecha_modificacion, fecha_creacion) DESC";
         return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(TecnicoModel.class));
     }
 
