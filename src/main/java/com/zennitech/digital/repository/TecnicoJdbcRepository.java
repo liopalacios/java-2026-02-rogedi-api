@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 @Repository
@@ -61,12 +62,33 @@ public class TecnicoJdbcRepository {
         return result.isEmpty() ? Optional.empty() : Optional.of(result.get(0));
     }
 
-    public List<TecnicoModel> buscarPorNombreODocumento(String nombre, String documento) {
-        String sql = "SELECT * FROM rogedibd.tecnicos WHERE (LOWER(nombres) LIKE LOWER(?) OR numero_documento = ?)";
-        return jdbcTemplate.query(sql,
+    public List<TecnicoModel> buscarPorNombreODocumento(String nombre, String documento, String tipo) {
+        StringBuilder sql = new StringBuilder("SELECT * FROM rogedibd.tecnicos WHERE 1=1 and activo=true ");
+        List<Object> params = new ArrayList<>();
+
+        // Búsqueda por nombre (si se proporciona)
+        if (nombre != null && !nombre.trim().isEmpty()) {
+            sql.append(" AND LOWER(nombres) LIKE LOWER(?)");
+            params.add("%" + nombre + "%");
+        }
+
+        // Búsqueda por documento (si se proporciona)
+        if (documento != null && !documento.trim().isEmpty()) {
+            sql.append(" AND numero_documento = ?");
+            params.add(documento);
+
+            // Si también se proporciona tipo, filtrar por tipo
+            if (tipo != null && !tipo.trim().isEmpty()) {
+                sql.append(" AND tipo_documento = ?");
+                params.add(tipo);
+            }
+        }
+        System.out.println(nombre+" "+tipo+" "+documento);
+        System.out.println(sql.toString());
+        return jdbcTemplate.query(
+                sql.toString(),
                 new BeanPropertyRowMapper<>(TecnicoModel.class),
-                "%" + nombre + "%",
-                documento
+                params.toArray()
         );
     }
 

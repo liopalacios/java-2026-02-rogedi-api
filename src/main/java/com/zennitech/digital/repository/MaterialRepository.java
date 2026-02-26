@@ -27,7 +27,6 @@ public class MaterialRepository {
             m.setId(rs.getLong("id"));
             m.setCodigo(rs.getString("codigo"));
             m.setDescripcion(rs.getString("descripcion"));
-            m.setCantidad(rs.getInt("cantidad"));
             m.setCantidadSeries(rs.getInt("cantidad_series"));
             m.setCreadoPor(rs.getString("creado_por"));
             m.setCreadoEn(rs.getTimestamp("creado_en") != null ?
@@ -69,12 +68,11 @@ public class MaterialRepository {
         String sql = "SELECT m.id,\n" +
                 "           m.codigo,\n" +
                 "           m.descripcion,\n" +
-                "           m.cantidad,\n" +
                 "           COUNT(s.id) AS cantidad_series,\n" +
                 "m.creado_por, m.creado_en, m.actualizado_por, m.actualizado_en " +
                 "    FROM rogedibd.materiales m\n" +
                 "    LEFT JOIN rogedibd.materiales_detalle s ON s.material_id = m.id\n" +
-                "    GROUP BY m.id, m.codigo, m.descripcion, m.cantidad\n" +
+                "    GROUP BY m.id, m.codigo, m.descripcion\n" +
                 "    ORDER BY m.id";
         return jdbcTemplate.query(sql, materialRowMapper);
     }
@@ -89,13 +87,13 @@ public class MaterialRepository {
     // 🔹 Insertar
     public int save(MaterialModel material) {
         String sql = """
-                INSERT INTO rogedibd.materiales (codigo, descripcion, cantidad, creado_por, creado_en)
+                INSERT INTO rogedibd.materiales (codigo, descripcion, seriado, creado_por, creado_en)
                 VALUES (?, ?, ?, ?, ?)
                 """;
         return jdbcTemplate.update(sql,
                 material.getCodigo(),
                 material.getDescripcion(),
-                material.getCantidad(),
+                material.getSeriado(),
                 material.getCreadoPor(),
                 LocalDateTime.now()
         );
@@ -105,13 +103,12 @@ public class MaterialRepository {
     public int update(Long id, MaterialModel material) {
         String sql = """
                 UPDATE rogedibd.materiales
-                SET codigo = ?, descripcion = ?, cantidad = ?, actualizado_por = ?, actualizado_en = ?
+                SET codigo = ?, descripcion = ?, actualizado_por = ?, actualizado_en = ?
                 WHERE id = ?
                 """;
         return jdbcTemplate.update(sql,
                 material.getCodigo(),
                 material.getDescripcion(),
-                material.getCantidad(),
                 material.getActualizadoPor(),
                 LocalDateTime.now(),
                 id

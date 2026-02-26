@@ -32,7 +32,7 @@ public interface TecnicoService {
      * @param documento número de documento (puede ser null)
      * @return lista de técnicos que cumplen con el filtro
      */
-    List<TecnicoModel> buscarTecnico(String nombre, String documento);
+    List<TecnicoModel> buscarTecnico(String nombre, String documento, String tipo);
 
     /**
      * Desactivar (borrado lógico) un técnico

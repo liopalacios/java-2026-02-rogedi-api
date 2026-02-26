@@ -42,8 +42,9 @@ public class TecnicoController {
     @GetMapping("/buscar")
     public ResponseEntity<List<TecnicoModel>> buscarTecnico(
             @RequestParam(required = false) String nombre,
+            @RequestParam(required = false) String tipo,
             @RequestParam(required = false) String documento) {
-        return ResponseEntity.ok(tecnicoService.buscarTecnico(nombre, documento));
+        return ResponseEntity.ok(tecnicoService.buscarTecnico(nombre, documento, tipo));
     }
 
     /**
@@ -52,6 +53,7 @@ public class TecnicoController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Integer> desactivarTecnico(@PathVariable Long id) {
         int rpta = tecnicoService.desactivarTecnico(id);
+        System.out.println(rpta);
         return ResponseEntity.ok(rpta);
     }
 }

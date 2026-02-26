@@ -18,9 +18,10 @@ public class MaterialModel {
     private String unidadMedida; // Para mostrar
     private Integer idContratista;
     private String contratista; // Para mostrar
-    private Integer cantidad;
+
     private Integer cantidadSeries;
     private Boolean activo;
+    private Boolean seriado;
     // Auditoría
     private String creadoPor;
     private LocalDateTime creadoEn;

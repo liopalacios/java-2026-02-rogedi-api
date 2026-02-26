@@ -35,8 +35,8 @@ public class TecnicoServiceImpl implements TecnicoService {
     }
 
     @Override
-    public List<TecnicoModel> buscarTecnico(String nombre, String documento) {
-        return tecnicoRepository.buscarPorNombreODocumento(nombre, documento);
+    public List<TecnicoModel> buscarTecnico(String nombre, String documento, String tipo) {
+        return tecnicoRepository.buscarPorNombreODocumento(nombre, documento, tipo);
     }
 
     @Override

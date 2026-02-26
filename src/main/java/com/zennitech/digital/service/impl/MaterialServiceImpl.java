@@ -27,6 +27,7 @@ public class MaterialServiceImpl implements MaterialService {
 
     public int crear(MaterialModel material) {
         material.setCreadoEn(LocalDateTime.now());
+        material.setCreadoPor("SYSTEM");
         return repository.save(material);
     }
 
@@ -34,7 +35,7 @@ public class MaterialServiceImpl implements MaterialService {
         return repository.findById(id).map(m -> {
             m.setCodigo(materialActualizado.getCodigo());
             m.setDescripcion(materialActualizado.getDescripcion());
-            m.setCantidad(materialActualizado.getCantidad());
+            m.setCreadoPor("SYSTEM");
             m.setActualizadoPor(materialActualizado.getActualizadoPor());
             m.setActualizadoEn(LocalDateTime.now());
             return repository.save(m);
