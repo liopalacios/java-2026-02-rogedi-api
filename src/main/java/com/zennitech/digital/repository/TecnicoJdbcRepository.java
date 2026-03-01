@@ -96,4 +96,26 @@ public class TecnicoJdbcRepository {
         String sql = "UPDATE rogedibd.tecnicos SET activo = false WHERE id = ?";
         return jdbcTemplate.update(sql, id);
     }
+
+    public List<TecnicoModel> buscarPorEmailTelefono(String email, String telefono) {
+        StringBuilder sql = new StringBuilder("SELECT * FROM rogedibd.tecnicos WHERE 1=1 and activo=true ");
+        List<Object> params = new ArrayList<>();
+
+        // Búsqueda por nombre (si se proporciona)
+        if (email != null && !email.trim().isEmpty()) {
+            sql.append(" AND LOWER(email) LIKE LOWER(?)");
+            params.add( email );
+
+            sql.append(" or telefono = ?");
+            params.add(telefono);
+
+        }
+        System.out.println(email+" "+telefono+" ");
+        System.out.println(sql);
+        return jdbcTemplate.query(
+                sql.toString(),
+                new BeanPropertyRowMapper<>(TecnicoModel.class),
+                params.toArray()
+        );
+    }
 }

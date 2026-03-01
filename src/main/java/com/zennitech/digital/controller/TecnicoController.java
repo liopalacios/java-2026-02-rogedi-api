@@ -46,7 +46,15 @@ public class TecnicoController {
             @RequestParam(required = false) String documento) {
         return ResponseEntity.ok(tecnicoService.buscarTecnico(nombre, documento, tipo));
     }
-
+    /**
+     * Buscar técnicos por nombre o documento
+     */
+    @GetMapping("/buscar-email-telefono")
+    public ResponseEntity<List<TecnicoModel>> buscarTecnicoEmailTelefono(
+            @RequestParam(required = false) String email,
+            @RequestParam(required = false) String telefono) {
+        return ResponseEntity.ok(tecnicoService.buscarTecnicoEmailTelefono(email, telefono));
+    }
     /**
      * Desactivar técnico (borrado lógico)
      */

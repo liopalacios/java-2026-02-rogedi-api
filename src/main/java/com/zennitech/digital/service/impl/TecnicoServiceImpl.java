@@ -43,4 +43,9 @@ public class TecnicoServiceImpl implements TecnicoService {
     public int desactivarTecnico(Long id) {
         return tecnicoRepository.desactivar(id);
     }
+
+    @Override
+    public List<TecnicoModel> buscarTecnicoEmailTelefono(String email, String telefono) {
+        return tecnicoRepository.buscarPorEmailTelefono(email, telefono);
+    }
 }

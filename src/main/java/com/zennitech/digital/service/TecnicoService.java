@@ -39,4 +39,6 @@ public interface TecnicoService {
      * @param id identificador del técnico
      */
     int desactivarTecnico(Long id);
+
+    List<TecnicoModel> buscarTecnicoEmailTelefono(String email, String telefono);
 }
