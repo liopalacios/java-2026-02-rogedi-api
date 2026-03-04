@@ -57,6 +57,8 @@ public class MaterialesController {
             @RequestParam(required = false) String descripcion    // búsqueda por número de serie
     ) {
         PageResponse<MaterialModel> resultado = service.listarPorCodigo(page, size, codigo, descripcion);
+        System.out.println("=====================");
+        System.out.println(resultado);
         return ResponseEntity.ok(resultado);
     }
 

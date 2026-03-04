@@ -27,6 +27,7 @@ public class MaterialRepository {
             m.setId(rs.getLong("id"));
             m.setCodigo(rs.getString("codigo"));
             m.setDescripcion(rs.getString("descripcion"));
+            m.setSeriado(rs.getBoolean("seriado")== Boolean.parseBoolean(null) ?false:true);
             m.setCantidadSeries(rs.getInt("cantidad_series"));
             m.setCreadoPor(rs.getString("creado_por"));
             m.setCreadoEn(rs.getTimestamp("creado_en") != null ?
@@ -67,13 +68,13 @@ public class MaterialRepository {
     public List<MaterialModel> findAll() {
         String sql = "SELECT m.id,\n" +
                 "           m.codigo,\n" +
-                "           m.descripcion,\n" +
+                "           m.descripcion,m.seriado,\n" +
                 "           COUNT(s.id) AS cantidad_series,\n" +
                 "m.creado_por, m.creado_en, m.actualizado_por, m.actualizado_en " +
                 "    FROM rogedibd.materiales m\n" +
                 "    LEFT JOIN rogedibd.materiales_detalle s ON s.material_id = m.id\n" +
-                "    GROUP BY m.id, m.codigo, m.descripcion\n" +
-                "    ORDER BY m.id";
+                "    GROUP BY m.id, m.codigo, m.descripcion,m.seriado\n" +
+                "    ORDER BY m.creado_en desc";
         return jdbcTemplate.query(sql, materialRowMapper);
     }
 
@@ -143,7 +144,7 @@ public class MaterialRepository {
             whereAdded = true;
         }
 
-        sql.append(" ORDER BY m.id OFFSET ? LIMIT ?");
+        sql.append(" ORDER BY m.creado_en desc OFFSET ? LIMIT ?");
         params.add(page * size);
         params.add(size);
 
