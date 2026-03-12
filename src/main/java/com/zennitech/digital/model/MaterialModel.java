@@ -21,7 +21,7 @@ public class MaterialModel {
 
     private Integer cantidadSeries;
     private Boolean activo;
-    private Boolean seriado;
+    private Boolean seriado = false;
     // Auditoría
     private String creadoPor;
     private LocalDateTime creadoEn;

@@ -43,6 +43,7 @@ public class MaterialServiceImpl implements MaterialService {
     }
 
     public void eliminar(Long id) {
+        System.out.println(id);
         repository.deleteById(id);
     }
 

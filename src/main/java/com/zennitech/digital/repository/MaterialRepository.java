@@ -66,15 +66,13 @@ public class MaterialRepository {
 
     // 🔹 Listar tod-os
     public List<MaterialModel> findAll() {
-        String sql = "SELECT m.id,\n" +
-                "           m.codigo,\n" +
-                "           m.descripcion,m.seriado,\n" +
-                "           COUNT(s.id) AS cantidad_series,\n" +
+        String sql = "SELECT m.id, m.codigo, m.descripcion, m.seriado, " +
+                "COALESCE((SELECT COUNT(*) FROM rogedibd.materiales_detalle s WHERE s.material_id = m.id),0) AS cantidad_series, " +
                 "m.creado_por, m.creado_en, m.actualizado_por, m.actualizado_en " +
-                "    FROM rogedibd.materiales m\n" +
-                "    LEFT JOIN rogedibd.materiales_detalle s ON s.material_id = m.id\n" +
-                "    GROUP BY m.id, m.codigo, m.descripcion,m.seriado\n" +
-                "    ORDER BY m.creado_en desc";
+                "FROM rogedibd.materiales m " +
+                "WHERE m.activo = true " +
+                "ORDER BY m.creado_en DESC";
+
         return jdbcTemplate.query(sql, materialRowMapper);
     }
 
